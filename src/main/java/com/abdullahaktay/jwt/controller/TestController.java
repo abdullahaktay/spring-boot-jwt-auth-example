@@ -10,4 +10,9 @@ public class TestController {
     public String publicEndpoint() {
         return "This is a public endpoint";
     }
+
+    @GetMapping("/secure")
+    public String secureEndpoint() {
+        return "This is a secure endpoint";
+    }
 }
