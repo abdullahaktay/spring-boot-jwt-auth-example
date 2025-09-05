@@ -3,6 +3,7 @@ package com.abdullahaktay.jwt.controller;
 import com.abdullahaktay.jwt.dto.request.AuthRequest;
 import com.abdullahaktay.jwt.dto.response.AuthResponse;
 import com.abdullahaktay.jwt.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
-    public AuthResponse login(@RequestBody AuthRequest authRequest){
+    public AuthResponse login(@Valid @RequestBody AuthRequest authRequest){
         return authService.login(authRequest);
     }
 }
