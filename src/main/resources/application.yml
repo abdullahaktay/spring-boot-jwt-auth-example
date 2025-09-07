@@ -1,0 +1,6 @@
+app:
+  jwt:
+    public-key: classpath:keys/public.pem
+    private-key: classpath:keys/private.pkcs8.pem
+    ttl: 15m
+
