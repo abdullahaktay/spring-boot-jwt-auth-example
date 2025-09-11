@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class AuthService {
@@ -39,9 +40,11 @@ public class AuthService {
     private String generateToken(Authentication authentication, String subject, Duration ttl) {
         Instant now = Instant.now();
 
-        var roles = authentication.getAuthorities()
+        List<String> roles = authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
+                .filter(role -> role.startsWith("ROLE_"))
+                .map(auth -> auth.substring("ROLE_".length()))
                 .toList();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
