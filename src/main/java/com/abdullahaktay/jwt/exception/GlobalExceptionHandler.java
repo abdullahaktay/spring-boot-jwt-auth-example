@@ -2,6 +2,7 @@ package com.abdullahaktay.jwt.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,6 +34,15 @@ public class GlobalExceptionHandler {
         problemDetail.setProperty("errors", fieldErrors);
 
 
+        return problemDetail;
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ProblemDetail handleBadCredentialsException() {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, "Invalid username or password");
+        problemDetail.setTitle("Authentication Failed");
+        problemDetail.setProperty("errorCode", "AUTH_001");
+        problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;
     }
 }
