@@ -3,10 +3,10 @@ package com.abdullahaktay.jwt.service;
 import com.abdullahaktay.jwt.config.JwtProperties;
 import com.abdullahaktay.jwt.dto.request.AuthRequest;
 import com.abdullahaktay.jwt.dto.response.AuthResponse;
-import com.abdullahaktay.jwt.model.Role;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -32,18 +32,23 @@ public class AuthService {
         Authentication authentication = UsernamePasswordAuthenticationToken.unauthenticated(authRequest.username(), authRequest.password());
         Authentication authenticationResponse = this.authenticationManager.authenticate(authentication);
         var ttl = jwtProperties.ttl();
-        String token = generateToken(authenticationResponse.getName(), ttl);
+        String token = generateToken(authenticationResponse, authenticationResponse.getName(), ttl);
         return new AuthResponse(token, TOKEN_TYPE, ttl.toSeconds());
     }
 
-    private String generateToken(String subject, Duration ttl) {
+    private String generateToken(Authentication authentication, String subject, Duration ttl) {
         Instant now = Instant.now();
+
+        var roles = authentication.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .subject(subject)
                 .issuedAt(now)
                 .expiresAt(now.plus(ttl))
-                .claim("scope", Role.USER.name())
+                .claim("roles", roles)
                 .build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
