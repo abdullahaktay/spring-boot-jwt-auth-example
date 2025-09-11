@@ -3,6 +3,7 @@ package com.abdullahaktay.jwt.service;
 import com.abdullahaktay.jwt.config.JwtProperties;
 import com.abdullahaktay.jwt.dto.request.AuthRequest;
 import com.abdullahaktay.jwt.dto.response.AuthResponse;
+import com.abdullahaktay.jwt.model.Role;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,7 +43,7 @@ public class AuthService {
                 .subject(subject)
                 .issuedAt(now)
                 .expiresAt(now.plus(ttl))
-                .claim("scope", "USER")
+                .claim("scope", Role.USER.name())
                 .build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

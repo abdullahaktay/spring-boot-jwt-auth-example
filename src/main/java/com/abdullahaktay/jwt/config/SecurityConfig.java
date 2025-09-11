@@ -1,5 +1,6 @@
 package com.abdullahaktay.jwt.config;
 
+import com.abdullahaktay.jwt.model.Role;
 import com.abdullahaktay.jwt.security.JwtAuthenticationEntryPoint;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -78,7 +79,7 @@ public class SecurityConfig {
         UserDetails user = User.builder()
                 .username("user")
                 .password(passwordEncoder.encode("password"))
-                .roles("USER")
+                .roles(Role.USER.name())
                 .build();
 
         return new InMemoryUserDetailsManager(user);
