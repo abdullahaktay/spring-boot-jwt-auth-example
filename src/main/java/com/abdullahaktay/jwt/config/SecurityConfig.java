@@ -1,6 +1,7 @@
 package com.abdullahaktay.jwt.config;
 
 import com.abdullahaktay.jwt.model.Role;
+import com.abdullahaktay.jwt.security.JwtAccessDeniedHandler;
 import com.abdullahaktay.jwt.security.JwtAuthenticationEntryPoint;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -44,7 +45,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtAccessDeniedHandler jwtAccessDeniedHandler) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public", "/auth/login").permitAll()
@@ -53,6 +54,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(jwtAccessDeniedHandler)
                 );
 
         return http.build();
