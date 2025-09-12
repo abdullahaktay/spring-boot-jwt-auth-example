@@ -2,11 +2,13 @@ package com.abdullahaktay.jwt.controller;
 
 import com.abdullahaktay.jwt.dto.response.UserProfileResponse;
 import com.abdullahaktay.jwt.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@PreAuthorize( "hasRole('USER')")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
