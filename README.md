@@ -26,7 +26,21 @@ Place the generated files under src/main/resources/keys/:
 - public.pem
 - private.pkcs8.pem
 
-## Run
+## Run (Gradle)
 ```bash
 ./gradlew bootRun
+```
+
+## Run with Docker
+Build the jar:
+```bash
+./gradlew bootJar
+```
+Build the image:
+```bash
+docker build -t jwt:local .
+```
+Run the container:
+```bash
+docker run --rm -p 8080:8080 jwt:local
 ```
