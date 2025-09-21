@@ -1,0 +1,26 @@
+# Build output
+out/
+bin/
+target/
+
+# Gradle
+.gradle/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+
+# Git
+.git/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+secrets/
