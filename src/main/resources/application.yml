@@ -4,3 +4,7 @@ app:
     private-key: file:/run/secrets/private.pkcs8.pem
     ttl: 15m
 
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
