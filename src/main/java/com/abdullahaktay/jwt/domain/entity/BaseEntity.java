@@ -1,9 +1,11 @@
 package com.abdullahaktay.jwt.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.Instant;
 
+@Getter
 @MappedSuperclass
 public abstract class BaseEntity {
     @Id
